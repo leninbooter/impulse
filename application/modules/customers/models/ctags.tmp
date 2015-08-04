@@ -1,0 +1,34 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Countries_m	countries_m.php	6;"	class
+Customers_m	customers_m.php	6;"	class
+__construct	countries_m.php	13;"	function
+__construct	customerTypes_m.php	13;"	function
+__construct	customers_m.php	13;"	function
+__construct	documentTypes_m.php	13;"	function
+customerTypes_m	customerTypes_m.php	6;"	class
+documentTypes_m	documentTypes_m.php	6;"	class
+fillable	countries_m.php	10;"	variable
+fillable	customerTypes_m.php	10;"	variable
+fillable	customers_m.php	10;"	variable
+fillable	documentTypes_m.php	10;"	variable
+primary_key	countries_m.php	9;"	variable
+primary_key	customerTypes_m.php	9;"	variable
+primary_key	customers_m.php	9;"	variable
+primary_key	documentTypes_m.php	9;"	variable
+protected	countries_m.php	11;"	variable
+protected	customerTypes_m.php	11;"	variable
+protected	customers_m.php	11;"	variable
+protected	documentTypes_m.php	11;"	variable
+soft_deletes	countries_m.php	16;"	variable
+soft_deletes	customerTypes_m.php	16;"	variable
+soft_deletes	documentTypes_m.php	16;"	variable
+table	countries_m.php	8;"	variable
+table	customerTypes_m.php	8;"	variable
+table	customers_m.php	8;"	variable
+table	documentTypes_m.php	8;"	variable
