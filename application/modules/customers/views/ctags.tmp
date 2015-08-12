@@ -5,6 +5,13 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
-k	form.php	129;"	variable
-k	form.php	33;"	variable
-k	form.php	7;"	variable
+customerId	form.php	5;"	variable
+customerId	form.php	9;"	variable
+k	form.php	159;"	variable
+k	form.php	21;"	variable
+k	form.php	49;"	variable
+k	index.php	30;"	variable
+newCont	form.php	267;"	function
+newDir	form.php	261;"	function
+userData	form.php	187;"	variable
+userData	form.php	94;"	variable

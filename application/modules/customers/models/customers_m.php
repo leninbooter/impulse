@@ -12,7 +12,10 @@ class Customers_m extends MY_Model
     
     public function __construct()
     {
-        parent::__construct()
+        $this->has_many['suscriptions'] = 'suscriptions/Suscriptions_m';
+        $this->has_many['addresses'] = array('Customer_addresses_m','fk_customer_id','pk_id');
+        $this->has_many['contacts'] = array('Customer_contacts_m','fk_customer_id','pk_id');
+        parent::__construct();
     }           
     
 }

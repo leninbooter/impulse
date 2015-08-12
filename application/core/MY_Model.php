@@ -480,6 +480,9 @@ class MY_Model extends CI_Model
             }
             else
             {
+                if ( isset($data[$this->_updated_at_field]) ) {
+                    $data[$this->_updated_at_field] = "'".$data[$this->_updated_at_field]."'";
+                }
                 if($this->_database->set($data, null, FALSE)->update($this->table))
                 {
                     $affected = $this->_database->affected_rows();
@@ -1116,6 +1119,10 @@ class MY_Model extends CI_Model
                         $foreign_model = (is_array($relation)) ? $relation[0] : $relation;
                         $foreign_model_name = strtolower($foreign_model);
                         $this->load->model($foreign_model_name);
+                        $divPosition = strpos($foreign_model_name, "/");
+                        if ( $divPosition ) {
+                            $foreign_model_name = substr($foreign_model_name, $divPosition + 1 );
+                        }
                         $foreign_table = $this->{$foreign_model_name}->table;
                         if($option=='has_many_pivot')
                         {
@@ -1383,6 +1390,30 @@ class MY_Model extends CI_Model
         //unset($this->db);
         isset($this->_database_connection) ? $this->load->database($this->_database_connection) : $this->load->database();
         $this->_database = $this->db;
+    }
+    
+    /**
+     * 
+     * Updates or Inserts the dataArray based on the row ID is sent
+     * 
+     * @param <type> $id 
+     * @param <type> $dataArray  
+     * 
+     * @return <type>
+     */
+    
+    public function save( $id = NULL, $dataArray = NULL ) {
+        
+        if ( !$id ) {
+            
+            $id = $this->insert( $dataArray );
+            
+        }else {
+            
+            $this->update( $dataArray, $id );
+        }
+        
+        return $id;
     }
 
     /*

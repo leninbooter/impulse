@@ -43,7 +43,7 @@ class Users_m extends MY_Model
     
     public function __construct()
     {
-        $this->has_one['type'] = array('UserTypes_m','pk_id','fk_user_type_id');
+        $this->has_one['type'] = array('usertypes_m','pk_id','fk_user_type_id');
         parent::__construct();
     }   
 

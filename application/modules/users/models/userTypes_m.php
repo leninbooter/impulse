@@ -13,7 +13,7 @@ class UserTypes_m extends MY_Model
     public function __construct()
     {
         $this->soft_deletes = FALSE;
-        $this->has_many['users'] = 'Users_m';
+      
         parent::__construct();
     }   
 

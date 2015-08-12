@@ -1,0 +1,17 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Users	Users.php	6;"	class
+__construct	Users.php	9;"	function
+form	Users.php	55;"	function
+id	Users.php	55;"	variable
+id	Users.php	72;"	variable
+index	Users.php	17;"	function
+layoutArray	Users.php	77;"	variable
+show	Users.php	112;"	function
+user	Users.php	114;"	variable
+user	Users.php	62;"	variable
