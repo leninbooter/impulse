@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Accounting extends MX_Controller 
+class Equipment extends MX_Controller 
 {
 
     function __construct() {

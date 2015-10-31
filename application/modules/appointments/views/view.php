@@ -136,6 +136,46 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal" id="pickMachineModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    <form method="POST" action="<?=base_url('index.php/appointments/save')?>">
+        <div class="modal-body container-fluid form-horizontal">
+            <input type="hidden" name="apptid" value="<?=$appt->pk_id?>">
+                <!--<div class="col-xs-12">                    
+                     <div class="form-group">
+                        <label for="cancellationnote" class="control-label">Seleccione la máquina a utilizar: </label>
+                        <select id="employees" name="employees" class="form-control">
+                            <option></option>
+                            <?php foreach($machines as $v):?>
+                                <option value="<?=$v->pk_id?>" <?=isset($appt) && $appt->fk_attending_employment_id == $v->pk_id ? 'selected':''?>><?="{$v->name} {$v->lastname}"?></option>
+                            <?php endforeach; ?>
+                        </select>      
+                        <input type="submit" class="btn btn-primary" value="Aceptar" name="cancel">                        
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label for="employees" class="col-xs-12 control-label text-left" style="text-align: left"><i class="fa fa"></i> Seleccione la máquina a utilizar: </label>
+                </div>
+                <div class="form-group">                    
+                    <div class="col-xs-8">
+                        <select id="employees" name="employees" class="form-control input-sm">
+                            <option></option>
+                            <?php foreach($machines as $v):?>
+                                <option value="<?=$v->pk_id?>" <?=isset($appt) && $appt->fk_attending_employment_id == $v->pk_id ? 'selected':''?>><?="{$v->name} {$v->lastname}"?></option>
+                            <?php endforeach; ?>
+                        </select>    
+                    </div>
+                     <div class="col-xs-4"> 
+                        <input type="submit" class="btn btn-primary btn-sm btn-block" value="Continuar">
+                     </div>
+                </div>
+        </div>        
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
     var askedAction = 0;
     
@@ -158,7 +198,7 @@
             switch(askedAction) {
                 
                 case 1: return true; break;
-                case 2: break;
+                case 2: $('#pickMachineModal').modal(); return false; break;
                 case 3: setAsAttend(); return false; break;
                 case 4: 
                     $('#cancellationModal').modal({show: true, backdrop: 'static', keyboard: 'false'}); 

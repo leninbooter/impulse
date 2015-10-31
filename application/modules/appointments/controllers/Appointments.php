@@ -544,11 +544,13 @@ class Appointments extends MX_Controller
         
         $this->load->module('layout');
         $this->load->model('users/users_m');
+        $this->load->model('equipment/equipment_m');
         
         $appt = $this->appointments_m->getappt( $id );
         $appt->datetime_dtm = DateTime::createFromFormat('Y-m-d H:i:s', $appt->datetime_dtm)->format('d-m-Y H:i');
         $datetimearr = explode(" ", $appt->datetime_dtm);
         $employees = $this->users_m->get_all();
+        $machines   = $this->equipment_m->get_all();
         
         $this->layout->set(
         
@@ -566,7 +568,8 @@ class Appointments extends MX_Controller
                                                 ),
                 'appt'          => $appt,
                 'datetimearr'   => $datetimearr,
-                'employees'     => $employees
+                'employees'     => $employees,
+                'machines'      => $machines
             )
         );
         
