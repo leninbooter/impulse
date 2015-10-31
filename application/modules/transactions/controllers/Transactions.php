@@ -16,12 +16,12 @@ class Transactions extends MX_Controller
         
     public function add( 
                         $transType = false,
-                        $suscriptionId = false, 
+                        $suscriptionId = null, 
                         $datetime = false, 
                         $credits_int = null, 
                         $notes = false, 
                         $appointmentId = false,
-                        $backTo = false ) {                            
+                        $backTo = false ) {
         
         $this->load->model('suscriptions/suscriptions_m');
         
@@ -43,10 +43,12 @@ class Transactions extends MX_Controller
             break;
             
             case 2:
-                $this->suscriptions_m->update(
-                                            array( 'credits_lock_int' => 'credits_lock_int - ' . abs($credits_int),
-                                                    'credits_used_int' => 'credits_used_int + '.abs($credits_int) ), $suscriptionId, FALSE
-                                            );
+                if( $suscriptionId ) {
+                    $this->suscriptions_m->update(
+                                                array( 'credits_lock_int' => 'credits_lock_int - ' . abs($credits_int),
+                                                        'credits_used_int' => 'credits_used_int + '.abs($credits_int) ), $suscriptionId, FALSE
+                                                );
+                }
 
                 if ( $appointmentId != false ) {
                     $credits_int = 0;

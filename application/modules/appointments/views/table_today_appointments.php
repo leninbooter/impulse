@@ -1,6 +1,6 @@
-<section class="content-header">
+<!-- <section class="content-header">
   <h1>Citas</h1>
-</section>
+</section> -->
 <section class="content">
 <div class="row">
     <div class="col-md-12">
@@ -68,6 +68,29 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal" id="confirmNewApt">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+    <form method="GET" action="<?=base_url('index.php/appointments/create')?>">
+        <div class="modal-body container-fluid">
+            <input type="hidden" name="apptdate" value="">
+            <div class="row">
+                <div class="col-md-12 text-center">                    
+                    <h1>Nueva Cita</h1>
+                    <h2><span id="day"></span> a las <span id="time"></span></h2>
+                    <h4>Confirma que deseas crear una cita en la fecha seleccionada</h4>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Continuar</button>
+        </div>
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
      $('#calendar').fullCalendar({
                                     header: {
@@ -75,7 +98,7 @@
                                         center: 'title',
                                         right: 'month,agendaWeek,agendaDay'
                                     },
-                                    defaultView: 'agendaWeek',
+                                    defaultView: 'agendaDay',
                                     events: '<?=base_url('index.php/appointments/getApptsFromTo')?>',
                                     defaultTimedEventDuration: '01:00:00',
                                     minTime: '06:00:00',
@@ -83,10 +106,26 @@
                                     allDaySlot: false,
                                     eventClick: function(calEvent, jsEvent, view) {
 
-                                        $('#apptModal').find('#apptModal-customerNameh').html(calEvent.name);
+                                        location.href = "<?=base_url("index.php/appointments/view")?>/"+calEvent.citaID;
+                                        /*$('#apptModal').find('#apptModal-customerNameh').html(calEvent.name);
                                         $('#apptModal').find('#apptModal-eventDatetimeh').html(calEvent.startFormatted);
                                         $('#apptModal').find('#apptModal-serviceNameh').html(calEvent.serviceName);
-                                        $('#apptModal').modal('show');
+                                        $('#apptModal').modal('show');*/
+
+                                    },
+                                    dayClick: function(date, jsEvent, view) {
+                                        var pickedDate  = new Date(date.format());                                                                                
+                                        var meses       = new Array ("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
+                                        var diasSemana  = new Array("domingo","lunes","martes","miércoles","jueves","viernes","sábado");
+                                        
+                                        var dateStr = diasSemana[pickedDate.getDay()] + " " + pickedDate.getDate() + " de " + meses[pickedDate.getMonth()] + " de " + pickedDate.getFullYear();
+                                        var timeStr = pickedDate.getHours() + ":" + (pickedDate.getMinutes() < 10 ? '0' + pickedDate.getMinutes():pickedDate.getMinutes());
+                                        
+                                        $('#confirmNewApt').find("#day").html(dateStr);
+                                        $('#confirmNewApt').find("#time").html(timeStr);
+                                        
+                                        $('#confirmNewApt').find("[name='apptdate']").val(date.format());
+                                        $('#confirmNewApt').modal('show');                                                                                
 
                                     },
                                     height:500

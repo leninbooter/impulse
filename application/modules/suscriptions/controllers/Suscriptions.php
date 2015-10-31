@@ -25,7 +25,7 @@ class Suscriptions extends MX_Controller
         $this->layout->set(
             array(
                 'customerData'          => $this->customers_m->get($customerId),
-                'suscriptions'          => $this->suscriptions_m->with_service()->where('fk_customer_id', $customerId)->get_all(),
+                'suscriptions'          => $this->suscriptions_m->with_service()->with_trashed()->where('fk_customer_id', $customerId)->get_all(),
                 'formAddSuscription'    => $this->load->view('form_new_suscriptions', array( 'services' => $this->services_m->as_dropdown('description_ln')->get_all(),
                                                                                             'customerId' => $customerId ), true),
                 'formAddAppointment'    => $this->load->view('appointments/form_new_appointment', '', true)
@@ -52,6 +52,7 @@ class Suscriptions extends MX_Controller
     public function add() {
         
         $this->load->model('services/services_prices_m');
+        $this->load->model('payments/payments_m');
         
         $customerId = $this->input->post('suscription')['customerId'];
         
@@ -67,7 +68,7 @@ class Suscriptions extends MX_Controller
         
         if ( empty($price) ) {
             
-            $price = $this->services_prices_m->where( "fk_service_id = {$serviceId} and {$credits} >= credits_min_int and (credits_max_int is null or credits_max_int = 0)",null,null,false, false, true)->get();        
+            $price = $this->services_prices_m->where( "fk_service_id = {$serviceId} and ( ({$credits} >= credits_min_int and (credits_max_int is null or credits_max_int = 0 or {$credits} >= credits_max_int) ) )",null,null,false, false, true)->get();        
         }
         
         $price = $price->price_amt;
@@ -81,6 +82,12 @@ class Suscriptions extends MX_Controller
                         'price_amt'         => $price
                         )
             );
+        
+        $this->payments_m->insert(array(
+            'ammount_amt'           => $price,
+            'fk_payment_method_id'  => 1,
+            'note_txt'              => 'Contratación de suscripción'
+        ));
         
         if ( $id === FALSE ) {
             

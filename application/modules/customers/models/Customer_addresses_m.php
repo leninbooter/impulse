@@ -16,4 +16,14 @@ class Customer_addresses_m extends MY_Model
         parent::__construct();
     }           
     
+    public function getOf( $custid ) {
+        
+        return $this->_database
+                    ->query("
+                        SELECT *
+                        FROM {$this->table}
+                        WHERE fk_customer_id = {$custid}
+                    ")
+                    ->result();
+    }
 }

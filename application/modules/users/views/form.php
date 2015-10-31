@@ -9,7 +9,7 @@
         $customerId = '';
     }
 ?>  
-<form method="post" action="<?=base_url('index.php/users/form' . $customerId)?>" class="form-inline" >
+<form method="post" action="<?=base_url("index.php/users/form/{$customerId}")?>" class="form-inline" >
     <div class="form-group" style="">
         <label for="exampleInputName2" class="control-label" >Tipo de Usuario</label>
         <select name="fk_document_type" class="form-control input-sm bg">

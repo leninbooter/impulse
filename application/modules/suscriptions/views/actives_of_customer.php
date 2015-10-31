@@ -28,7 +28,7 @@
                             <td style="text-align:center"><a href="<?=base_url('index.php/suscriptions/usedCreditsFrom?s='.$s->pk_id)?>"><?=$s->credits_used_int?></a></td>
                             <td style="text-align:center"><a href="<?=base_url('index.php/suscriptions/heldCreditsFrom?s='.$s->pk_id)?>"><?=$s->credits_lock_int?></a></td>
                             <td style="text-align:center"><?=$s->credits_int - $s->credits_lock_int - $s->credits_used_int?></td>
-                            <td style="text-align:center"><button type="button" class="btn btn-default btn-sm" data-serviceName="<?=$s->service->description_ln?>" data-suscriptionId="<?=$s->pk_id?>" data-toggle="modal" data-target="#addAppointmentModal"  ><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Agendar Cita</button></td>
+                            <td style="text-align:center"></td>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

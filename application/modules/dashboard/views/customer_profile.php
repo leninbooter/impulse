@@ -3,13 +3,13 @@
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xs-6">
             <h2>Datos Personales</h2>
-            <div class="container">
+            <div class="">
             <?=$customerForm?>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-xs-6">
             <h2>Bonos Contratados</h2>
             <?=$bonus?>
         </div>

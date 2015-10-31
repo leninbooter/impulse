@@ -66,9 +66,7 @@ class Users extends MX_Controller
                                 'fk_user_type_id'   => $this->input->post('fk_document_type'),
                                 'username'          => $this->input->post('username')                                
                                 );
-            if ( !$id ) {
-                $user['pwd'] = password_hash($this->input->post('pwd'), PASSWORD_DEFAULT);
-            }
+            $user['pwd'] = password_hash($this->input->post('pwd'), PASSWORD_DEFAULT);
             $id = $this->users_m->save($id, $user);                                       
 
             redirect(base_url('index.php/users'));

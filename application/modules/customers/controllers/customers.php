@@ -105,12 +105,14 @@ class Customers extends MX_Controller
                 $updatedDir[$this->Customer_addresses_m->save($pk_id, $direction)] = true;
             }       
             $savedDir = $this->Customer_addresses_m->where('fk_customer_id', $customerId )->get_all();
-            foreach( $savedDir as $sDir ) {
-                
-                if( !isset($updatedDir[$sDir->pk_id]) ) {
-                    $this->Customer_addresses_m->delete($sDir->pk_id);
+            if( $savedDir ) {
+                foreach( $savedDir as $sDir ) {
+                    
+                    if( !isset($updatedDir[$sDir->pk_id]) ) {
+                        $this->Customer_addresses_m->delete($sDir->pk_id);
+                    }
+                    
                 }
-                
             }
             
             // Contacts            
@@ -144,6 +146,7 @@ class Customers extends MX_Controller
             }
             
             $savedCon = $this->Customer_contacts_m->where('fk_customer_id', $customerId )->get_all();
+            if ( $savedCon ) {
             foreach( $savedCon as $cDir ) {
                 
                 if( !isset($updatedCon[$cDir->pk_id]) ) {
@@ -151,12 +154,29 @@ class Customers extends MX_Controller
                 }
                 
             }
+            }
 
             redirect(base_url('index.php/customers'));
         }
         
-        $layoutArray = array(
-                            'customerTypes' => $this->Customertypes_m
+        $layoutArray = array();
+        $formData = array();
+        
+        if ( $customerId ) {
+            
+            $formData['userData']  = $this->customers_m
+                                                ->with_addresses()
+                                                ->with_contacts()
+                                                ->get($customerId);
+                            
+        }
+        
+        $formData['documentTypes'] = $this->Documenttypes_m
+                                                    ->as_dropdown('description')
+                                                    ->set_cache('get_doc_types')
+                                                    ->get_all();
+        
+        $formData['customerTypes'] = $this->Customertypes_m
                                                     ->where(
                                                             'parent is null', 
                                                             NULL, 
@@ -166,25 +186,19 @@ class Customers extends MX_Controller
                                                             TRUE)
                                                     ->fields('pk_id, name')
                                                     ->set_cache('get_customers_types',0)
-                                                    ->get_all(),
-                            'documentTypes' => $this->Documenttypes_m
-                                                    ->as_dropdown('description')
-                                                    ->set_cache('get_doc_types')
-                                                    ->get_all(),
-                            'countries'     => $this->countries_m
+                                                    ->get_all();
+                            
+        $formData['countries']  = $this->countries_m
                                                     ->as_dropdown('name')
                                                     ->set_cache('get_countries',0)
-                                                    ->get_all()
-                        );
+                                                    ->get_all();
         
-        if ( $customerId ) {
-            
-            $layoutArray['userData']  = $this->customers_m
-                                                ->with_addresses()
-                                                ->with_contacts()
-                                                ->get($customerId);
+        $layoutArray = array_merge( $layoutArray, array(                                                        
                             
-        }
+                            'form'          => $this->load->view('form', $formData, true)
+                        ));
+        
+        
 
         $this->load->module('layout');
         
@@ -194,7 +208,7 @@ class Customers extends MX_Controller
             
             $this->layout->buffer(
                 array(
-                    array('content', 'customers/form')
+                    array('content', 'customers/newcustomer')
                 )
             );
 

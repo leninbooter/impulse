@@ -4,43 +4,47 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-        
-            <?php foreach( $services as $s ): ?>                  
+                              
                 <div class="box">
-                    <div class="box-header">
-                      <h3 class="box-title"><?=$s->description_ln?></h3>
-                    </div><!-- /.box-header -->
+                    
                     <div class="box-body">
-                        <h3>Precios Bonos</h3>
-                        <table class="table table-hover table-boreder table-responsibe" style="with:100%">
+                        <table class="table  table-condensed" style="with:100%; border-top:none !important">
                             <thead>
                                 <tr>              
-                                    <th>Créditos desde</th>
-                                    <th>Créditos hasta</th>
-                                    <th>Precio</th>
+                                    <th rowspan="2" style=" width:15.0%; ">Nombre</th>
+                                    <th rowspan="2" style=" width:20.0%; ">Descripción</th>
+                                    <th colspan="3" style="text-align:center; width:33.33%; ">Precios Bonos</th>
+                                </tr>
+                                <tr>              
+                                    <th style="text-align:center; width:11.11%; ">Créditos desde</th>
+                                    <th style="text-align:center; width:11.11%; ">Créditos hasta</th>
+                                    <th style="text-align:center; width:11.11%; ">Precio</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if( isset($s->prices) ): ?>                  
-                                    <?php foreach( $s->prices as $prices ): ?>                  
-                                        <tr>                        
-                                            <td><?=$prices->credits_min_int?></td>
-                                            <td><?=$prices->credits_max_int?></td>
-                                            <td class="text-right"><?=$prices->price_amt?> €</td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                                <tr style="display:none">                        
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td class="text-right"><input type="text" class="form-control"></td>
+                            <?php foreach( $services as $s ): ?>
+                                <tr style="cursor:pointer" onclick='location.href = "<?=base_url("index.php/services/form/{$s->pk_id}")?>"'>
+                                    <td><?=$s->description_ln?></td>
+                                    <td><?=$s->observations_txt?></td>
+                                    <td colspan="3">
+                                        <?php if( isset($s->prices) ): ?>
+                                            <table class="table table-condensed" style="border-top:none !important; width: 100%">
+                                                <?php foreach( $s->prices as $prices ): ?>                                        
+                                                    <tr>
+                                                    <td style="width:33.33%; border-top:none !important; text-align:center"><?=$prices->credits_min_int?></td>
+                                                    <td style="width:33.33%; border-top:none !important; text-align:center"><?=$prices->credits_max_int?></td>
+                                                    <td style="width:33.33%; border-top:none !important; text-align:right"><?=$prices->price_amt?> €</td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                    <?php endif; ?>
+                                    </td>                                    
                                 </tr>
+                            <?php endforeach; ?>                               
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
-                </div>
-            <?php endforeach; ?>        
-                    
+                </div>                                    
         </div>
     </div>
 </section>

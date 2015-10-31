@@ -23,7 +23,7 @@
     <link href="<?=base_url('assets/AdminLTE-2.2.0/dist/css/AdminLTE.min.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/AdminLTE-2.2.0/dist/css/skins/skin-blue.min.css')?>" rel="stylesheet" type="text/css">
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?=base_url('assets/font-awesome-4.4.0/css/font-awesome.min.css')?>" rel="stylesheet" type="text/css">
     <?php if(isset($custom_css)): ?>
         <?php foreach($custom_css as $file): ?>
             <link href="<?=$file?>" rel="stylesheet">		
@@ -61,8 +61,22 @@
               <ul class="nav navbar-nav">
                     <li ><a href="<?=base_url('index.php/appointments/todayAppointments')?>"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
                     <li ><a href="<?=base_url('index.php/customers/')?>"><i class="fa fa-briefcase"></i> <span>Clientes</span></a></li>
-                    <li ><a href="<?=base_url('index.php/services/')?>"><i class="fa fa-th"></i> <span>Servicios</span></a></li>
+                    <li class="dropdown" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-th"></i> <span>Servicios</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?=base_url('index.php/services/')?>">Ver</a></li>                            
+                            <li><a href="<?=base_url('index.php/services/form')?>">Nuevo</a></li>                            
+                          </ul>
+                    </li>
                     <li ><a href="<?=base_url('index.php/users/')?>"><i class="fa fa-user"></i></i> <span>Empleados</span></a></li>
+                    
+                    <li class="dropdown" ><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-eur"></i></i> <span>Contabilidad</span> <span class="caret"></span></a>
+                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?=base_url('index.php/accounting/')?>">Movimientos de Caja</a></li>                                                       
+                          </ul>
+                    </li>
+                    <li ><a href="<?=base_url('index.php/sessions/end')?>"><i class="fa fa-sign-out"></i> <span>Cerrar sesión</span></a></li>
+                    <li ><a href="#">( Usuario: <?=$this->session->user['user_full_name']?> )</a></li>
               </ul>
                             
             </div><!-- /.navbar-collapse -->

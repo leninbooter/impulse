@@ -15,6 +15,56 @@ class Appointments_m extends MY_Model
         $this->soft_deletes = true;
         $this->has_one['suscription']   = array('suscriptions/Suscriptions_m','pk_id','fk_suscription_id');
         parent::__construct();
-    }           
+    }
+    
+    public function getappt($id) {
+        
+        return $this->_database
+                    ->query("SELECT
+                                c.pk_id as cust_id,
+                                c.name,
+                                c.lastname,
+                                se.pk_id as se_id,
+                                se.description_ln,
+                                appt.datetime_dtm,
+                                appt.pk_id,
+                                appt.notes_txt,
+                                fk_appointment_status_id,
+                                apptsts.description_ln as status_description,
+                                appt.created_at,
+                                appt.fk_suscription_id,
+                                appt.cancellation_notes_txt,
+                                appt.cancellation_date_dt,
+                                appt.credits_int,
+                                s.pk_id as suscription_id,
+                                appt.fk_attending_employment_id
+                            FROM appointments as appt
+                            LEFT JOIN suscriptions  as s ON s.pk_id = appt.fk_suscription_id
+                            LEFT JOIN customers     as c ON c.pk_id = appt.fk_customer_id OR s.fk_customer_id  = c.pk_id 
+                            LEFT JOIN services      AS se ON se.pk_id = appt.fk_service_id OR s.fk_service_id = se.pk_id
+                            LEFT JOIN appointments_status as apptsts ON apptsts.pk_id = appt.fk_appointment_status_id
+                            WHERE 
+                                appt.pk_id = {$id}
+                            ")->row();
+    }
+
+    public function getfromto($from, $to) {
+
+        return $this->_database
+                    ->query("SELECT
+                                c.name,
+                                c.lastname,
+                                se.description_ln,
+                                appt.datetime_dtm,
+                                appt.pk_id,
+                                appt.fk_appointment_status_id
+                            FROM appointments as appt
+                            LEFT JOIN suscriptions  as s ON s.pk_id = appt.fk_suscription_id
+                            LEFT JOIN customers     as c ON c.pk_id = appt.fk_customer_id  OR c.pk_id = s.fk_customer_id
+                            LEFT JOIN services      AS se ON se.pk_id = appt.fk_service_id OR s.fk_service_id = se.pk_id
+                            WHERE 
+                                appt.datetime_dtm between '{$from}' and '{$to}'
+                            ")->result();
+    }
     
 }

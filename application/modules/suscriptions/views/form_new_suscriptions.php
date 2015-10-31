@@ -1,6 +1,6 @@
 <form id="newSuscriptionForm" class="form-horizontal" method="post" action="<?=base_url('index.php/suscriptions/add')?>">    
     <input type="hidden" name="suscription[customerId]" value="<?=$customerId?>">
-    <input type="hidden" name="redirect" value="<?=base_url('index.php/dashboard/customerProfile?custId='-$customerId)?>">
+    <input type="hidden" name="redirect" value="<?=base_url("index.php/dashboard/customerprofile/{$customerId}")?>">
     <div class="form-group">        
         <label class="col-sm-2 control-label">Servicio</label>
         <div class="col-sm-5">
