@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+amd.jQuery	select2.full.min.js	1;"	property
+amd.jQuery	select2.min.js	1;"	property
+config	select2.full.min.js	1;"	function
+config	select2.min.js	1;"	function
+exports	select2.full.min.js	1;"	method
+exports	select2.min.js	1;"	method
+f	select2.full.min.js	1;"	function
+f	select2.min.js	1;"	function
+g	select2.full.min.js	1;"	function
+g	select2.min.js	1;"	function
+h	select2.full.min.js	1;"	function
+h	select2.min.js	1;"	function
+i	select2.full.min.js	1;"	function
+i	select2.min.js	1;"	function
+j	select2.full.min.js	1;"	function
+j	select2.min.js	1;"	function
+j.k	select2.full.min.js	1;"	function
+j.k	select2.min.js	1;"	function
+j.l	select2.full.min.js	1;"	function
+j.l	select2.min.js	1;"	function
+module	select2.full.min.js	1;"	method
+module	select2.min.js	1;"	method
+o	select2.full.min.js	1;"	function
+o	select2.min.js	1;"	function
+require	select2.full.min.js	1;"	method
+require	select2.min.js	1;"	method

@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Receipts	Receipts.php	6;"	class
+__construct	Receipts.php	9;"	function
+balance	Receipts.php	95;"	variable
+cust	Receipts.php	40;"	variable
+cust_addrs	Receipts.php	42;"	variable
+custid	Receipts.php	84;"	variable
+form	Receipts.php	57;"	variable
+generate	Receipts.php	79;"	function
+invid	Receipts.php	118;"	variable
+modal	Receipts.php	22;"	variable
+modal	Receipts.php	24;"	variable
+notes	Receipts.php	86;"	variable
+pay	Receipts.php	17;"	function
+payment_ammount	Receipts.php	92;"	variable
+payment_ammount	Receipts.php	93;"	variable
+payment_description	Receipts.php	91;"	variable
+pm	Receipts.php	108;"	variable
+pm	Receipts.php	90;"	variable
+products	Receipts.php	31;"	variable
+receipt	Receipts.php	22;"	function
+receiptArrData	Receipts.php	45;"	variable
+sale	Receipts.php	29;"	variable
+sale	Receipts.php	88;"	variable
+saleid	Receipts.php	17;"	variable
+saleid	Receipts.php	85;"	variable
+services	Receipts.php	35;"	variable

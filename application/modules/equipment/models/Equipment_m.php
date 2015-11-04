@@ -17,5 +17,16 @@ class Equipment_m extends MY_Model
         parent::__construct();
     }
     
+    public function getAllWithStats() {
+        
+        return $this->_database
+                    ->query("SELECT 
+                                    eq.*,
+                                    equ.usagetime
+                                FROM {$this->table} as eq
+                                LEFT JOIN equipment_usage as equ on equ.fk_equipment_id = eq.pk_id
+                                WHERE eq.deleted_at is null")
+                    ->result();
+    }
    
 }

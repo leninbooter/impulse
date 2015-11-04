@@ -27,7 +27,7 @@
                             <?php foreach( $transactions as $k=>$v): ?>
                             <tr>
                                 <td><?=$v->created_at?></td>
-                                <td><?=$v->fk_invoice_id == null ? $v->note_txt:"Fago a factura #{$v->fk_invoice_id}"?></td>
+                                <td><?=$v->invoice_id == null ? $v->note_txt:"Fago a factura #{$v->invoice_id}"?></td>
                                 <td><?=$v->note_txt?></td>
                                 <td style="text-align: right"><?=$v->ammount_amt?></td>
                             </tr>

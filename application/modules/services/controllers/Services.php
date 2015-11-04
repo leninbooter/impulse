@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Services extends MX_Controller 
+class Services extends MY_Controller 
 {
 
     function __construct() {
@@ -12,16 +12,21 @@ class Services extends MX_Controller
         
         $this->load->helper('url');
         $this->load->model('services_m');        
+        $this->load->model('services_prices_by_time_m');        
+        $this->load->model('services_prices_m');        
     }
     
-    public function add() {
-        
-        $this->load->model('services_prices_m');
+    public function add() {        
         
         $name           = $this->input->post('name', true);
         $creditsfrom    = $this->input->post('creditsfrom', true);
         $creditsto      = $this->input->post('creditsto', true);
         $creditsprice   = $this->input->post('creditsprice', true);
+        
+        $timesbundle    = $this->input->post('time', true);
+        $bundleprice   = $this->input->post('timebundleprice', true);
+        $timebundleappts   = $this->input->post('timebundleappts', true);
+        
         $observations   = $this->input->post('observations', true);
         
         $id = $this->input->post('serviceid', true);
@@ -33,11 +38,16 @@ class Services extends MX_Controller
                         ->where("fk_service_id = {$id}", null, null, false, false, true)
                         ->delete();
                         
+                $this->services_prices_by_time_m
+                        ->where("fk_service_id = {$id}", null, null, false, false, true)
+                        ->delete();
+                        
                 $this->services_m->delete($id);
                 
             }else {
                 
-                 // Edit            
+                // Edit  
+                
                 // Credits            
                 $creditsid    = $this->input->post('credid', true);
                 
@@ -74,16 +84,64 @@ class Services extends MX_Controller
                     }
                 }
                 
-                foreach( $savedCred as $sc ) {
-                    
-                    if( !isset($updated[$sc->pk_id]) ) {
+                if ( $savedCred ) {
+                    foreach( $savedCred as $sc ) {
                         
-                        $this->services_prices_m->delete($sc->pk_id);
+                        if( !isset($updated[$sc->pk_id]) ) {
+                            
+                            $this->services_prices_m->delete($sc->pk_id);
+                            
+                        }
                         
                     }
-                    
                 }
+                // Price by time
+                $ids    = $this->input->post('timeid', true);
                 
+                $saved = $this->services_prices_by_time_m
+                                    ->where("fk_service_id = {$id}", null, null, false, false, true )
+                                    ->get_all();
+                
+                $updated = array();
+                
+                for( $i = 0; $i < count($timesbundle) ; $i++ ) {
+                    
+                    if( isset($ids[$i]) ) {
+                        
+                        $this->services_prices_by_time_m
+                            ->update(
+                                array(
+                                    'time_bundle_int'   => $timesbundle[$i],
+                                    'price_amt'         => $bundleprice[$i],
+                                    'month_appts_int'         => $timebundleappts[$i]
+                                ),
+                                $ids[$i]
+                            );
+                            $updated[$ids[$i]] = true;
+                    }else {
+                        
+                         $this->services_prices_by_time_m
+                            ->insert(array(
+                                'fk_service_id'     => $id,
+                                'time_bundle_int'   => $timesbundle[$i],
+                                'price_amt'         => $bundleprice[$i],
+                                'month_appts_int'         => $timebundleappts[$i]
+                            ));
+                        
+                    }
+                }
+                               
+                if ( $saved ) {
+                    foreach( $saved as $sc ) {
+                        
+                        if( !isset($updated[$sc->pk_id]) ) {
+                            
+                            $this->services_prices_by_time_m->delete($sc->pk_id);
+                            
+                        }
+                        
+                    }
+                }
                 $this->services_m->update(
                 array(
                 'description_ln'    => $name,
@@ -117,6 +175,17 @@ class Services extends MX_Controller
                         ));
             }
             
+            for($i=0; $i<count($timesbundle); $i++) {
+                
+                $this->services_prices_by_time_m
+                        ->insert(array(
+                            'fk_service_id'     => $id,
+                            'time_bundle_int'   => $timesbundle[$i],
+                            'price_amt'         => $bundleprice[$i],
+                            'month_appts_int'   => $timebundleappts[$i]
+                        ));
+            }
+            
             redirect("services/addedsuccess", 'refresh');
         }
         
@@ -141,7 +210,7 @@ class Services extends MX_Controller
         
         $this->layout->set(
             array(
-                'services'     => $this->services_m->with_prices()->get_all()
+                'services'     => $this->services_m->with_prices()->with_timebundles()->get_all()
             )
         );
         
@@ -160,18 +229,21 @@ class Services extends MX_Controller
                 
         $savedservice = array();
         
-        if( $id ) {
-            
-            $this->load->model('services_prices_m');
+        if( $id ) {            
             
             $service = $this->services_m->get($id);
             $credits = $this->services_prices_m
                             ->where("fk_service_id = {$id}", null, null, false, false, true)
                             ->get_all();
             
+            $timbundles = $this->services_prices_by_time_m
+                            ->where("fk_service_id = {$id}", null, null, false, false, true)
+                            ->get_all();
+            
             $savedservice = array(
                             'service'   => $service,
-                            'credits'   => $credits
+                            'credits'   => $credits,
+                            'timebundles'   => $timbundles
                         );
         }        
         

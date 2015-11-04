@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Payments_m	Payments_m.php	6;"	class
+Payments_methods_m	Payments_methods_m.php	6;"	class
+__construct	Payments_m.php	13;"	function
+__construct	Payments_methods_m.php	13;"	function
+fillable	Payments_m.php	10;"	variable
+fillable	Payments_methods_m.php	10;"	variable
+primary_key	Payments_m.php	9;"	variable
+primary_key	Payments_methods_m.php	9;"	variable
+protected	Payments_m.php	11;"	variable
+protected	Payments_methods_m.php	11;"	variable
+soft_deletes	Payments_m.php	15;"	variable
+soft_deletes	Payments_methods_m.php	15;"	variable
+table	Payments_m.php	8;"	variable
+table	Payments_methods_m.php	8;"	variable

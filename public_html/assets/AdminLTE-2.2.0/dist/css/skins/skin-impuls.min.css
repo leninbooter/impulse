@@ -1,0 +1,316 @@
+.skin-impuls a,
+.skin-impuls .btn-link  {
+    color: #ffffff;
+}
+
+.skin-impuls a:focus, 
+.skin-impuls a:hover,
+.skin-impuls .btn-link:hover  {
+    
+    color: #ffffff;
+}
+
+.skin-impuls .btn {
+    border:none;
+}
+
+.skin-impuls .bigbuttons ul {
+	list-style: outside none none;
+	padding: 20px 0px 50px;
+	max-width: 980px;
+	margin: 0px auto;
+}
+
+.skin-impuls .bigbuttons ul li i:hover {
+
+}
+
+.skin-impuls .bigbuttons ul li i {
+    font-size: 35px;
+    margin-bottom: 15px;
+    display:block;    
+}
+
+.skin-impuls .bigbuttons ul li:hover {
+    background: #96202A;
+    cursor:pointer;    
+}
+
+.skin-impuls .bigbuttons ul li {
+	margin: 0px;
+	float: left;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	width: 33%;
+	/*padding: 30px 0px 30px;*/
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.skin-impuls .bigbuttons ul li a {
+    
+    color: #ffffff;
+        padding: 15px 0px;
+    min-height: 100%;
+    line-height: 30px;
+    display: block;
+
+}
+
+.skin-impuls .bigbuttons ul li a:hover,
+.buttons ul li a:focus,
+.buttons ul li a:active {
+    
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.skin-impuls .buttons a:focus, 
+.skin-impuls .buttons a:hover,
+.skin-impuls .button .btn-link:hover  {
+    text-decoration: none;
+}
+
+.skin-impuls .btn-primary {
+	background-color: #6B2016;
+	border-color: #69000A;
+}
+
+.skin-impuls .btn-primary:hover,
+.skin-impuls .btn-primary:active,
+.skin-impuls .btn-primary:active:hover,
+.skin-impuls .btn-primary:focus {
+    background-color: #6B2016;
+}
+
+.skin-impuls .nav-tabs-custom  > .nav-tabs > li.active {
+	border-top-color: #6B2016;
+    border-top-width: 5px;
+}
+
+.skin-impuls .newuserform fieldset {
+    
+    border: 1px solid #B7B7B7;
+    padding: 0 15px 10px;
+}
+
+.skin-impuls .newuserform fieldset legend {
+    width: auto;
+    border:none;
+    margin: 0 0 7px 0;
+    padding: 0 7px;
+    font-size: 15px;
+}
+
+.skin-impuls .newuserform  > fieldset:first-of-type {
+    
+    border:none;
+    
+}
+
+.skin-impuls .box.box-primary {    
+    border-top-color: #6B2016;    
+}
+.skin-impuls .main-header {
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.skin-impuls .main-header .navbar-toggle {
+    color: #6B2016
+}
+.skin-impuls .main-header .navbar-brand {
+    color: #ffffff;
+    border-right: 0px solid #eee
+}
+.skin-impuls .main-header>.navbar {
+    /* border-width: 0px; */
+ background-color: #652016;
+/*     border-image: linear-gradient(to left, #C2C2C2 0%, #808080 100%);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-image-slice: 1; */
+}
+}
+.skin-impuls .main-header>.navbar .nav>li>a {
+    color: #ffffff
+}
+.skin-impuls .main-header .navbar .nav > .active > a {
+    
+    background: #6B2016;
+    color: #FFFFFF;
+}
+
+.skin-impuls .main-header>.navbar .nav>li>a:hover,
+.skin-impuls .main-header>.navbar .nav>li>a:active,
+.skin-impuls .main-header>.navbar .nav>li>a:focus,
+.skin-impuls .main-header>.navbar .nav .open>a,
+.skin-impuls .main-header>.navbar .nav .open>a:hover,
+.skin-impuls .main-header>.navbar .nav .open>a:focus {
+    background: #fff;
+    color: #6B2016
+}
+.skin-impuls .main-header>.navbar .sidebar-toggle {
+    color: #6B2016
+}
+.skin-impuls .main-header>.navbar .sidebar-toggle:hover {
+    color: #999;
+    background: #fff
+}
+.skin-impuls .main-header>.navbar>.sidebar-toggle {
+    color: #6B2016;
+    border-right: 1px solid #eee
+}
+.skin-impuls .main-header>.navbar .navbar-nav>li>a {
+    border-right: 0px solid #eee
+}
+.skin-impuls .main-header>.navbar .navbar-custom-menu .navbar-nav>li>a,
+.skin-impuls .main-header>.navbar .navbar-right>li>a {
+    border-left: 1px solid #eee;
+    border-right-width: 0
+}
+.skin-impuls .main-header>.logo {
+    background-color: #fff;
+    color: #6B2016;
+    border-bottom: 0 solid transparent;
+    border-right: 1px solid #eee
+}
+.skin-impuls .main-header>.logo:hover {
+    background-color: #fcfcfc
+}
+@media (max-width: 767px) {
+    .skin-impuls .main-header>.logo {
+        background-color: #222;
+        color: #fff;
+        border-bottom: 0 solid transparent;
+        border-right: none
+    }
+    .skin-impuls .main-header>.logo:hover {
+        background-color: #1f1f1f
+    }
+}
+.skin-impuls .main-header li.user-header {
+    background-color: #222
+}
+.skin-impuls .content-header {
+    background: transparent;
+    box-shadow: none
+}
+.skin-impuls .wrapper,
+.skin-impuls .main-sidebar,
+.skin-impuls .left-side {
+    background-color: #222d32
+}
+.skin-impuls .user-panel>.info,
+.skin-impuls .user-panel>.info>a {
+    color: #fff
+}
+.skin-impuls .sidebar-menu>li.header {
+    color: #4b646f;
+    background: #1a2226
+}
+.skin-impuls .sidebar-menu>li>a {
+    border-left: 3px solid transparent
+}
+.skin-impuls .sidebar-menu>li:hover>a,
+.skin-impuls .sidebar-menu>li.active>a {
+    color: #fff;
+    background: #1e282c;
+    border-left-color: #fff
+}
+.skin-impuls .sidebar-menu>li>.treeview-menu {
+    margin: 0 1px;
+    background: #2c3b41
+}
+.skin-impuls .sidebar a {
+    color: #b8c7ce
+}
+.skin-impuls .sidebar a:hover {
+    text-decoration: none
+}
+.skin-impuls .treeview-menu>li>a {
+    color: #8aa4af
+}
+.skin-impuls .treeview-menu>li.active>a,
+.skin-impuls .treeview-menu>li>a:hover {
+    color: #fff
+}
+.skin-impuls .sidebar-form {
+    border-radius: 3px;
+    border: 1px solid #374850;
+    margin: 10px 10px
+}
+.skin-impuls .sidebar-form input[type="text"],
+.skin-impuls .sidebar-form .btn {
+    box-shadow: none;
+    background-color: #374850;
+    border: 1px solid transparent;
+    height: 35px;
+    -webkit-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out
+}
+.skin-impuls .sidebar-form input[type="text"] {
+    color: #666;
+    border-top-left-radius: 2px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 2px !important
+}
+.skin-impuls .sidebar-form input[type="text"]:focus,
+.skin-impuls .sidebar-form input[type="text"]:focus+.input-group-btn .btn {
+    background-color: #fff;
+    color: #666
+}
+.skin-impuls .sidebar-form input[type="text"]:focus+.input-group-btn .btn {
+    border-left-color: #fff
+}
+.skin-impuls .sidebar-form .btn {
+    color: #999;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 2px !important;
+    border-bottom-right-radius: 2px !important;
+    border-bottom-left-radius: 0 !important
+}
+
+
+.skin-impuls fieldset {
+        
+    margin-bottom: 10px;
+}
+
+
+@media ( min-width: 768px  ) {
+    .skin-impuls .newuserform .form-group {
+        
+        width: 200px;
+        margin-bottom:7px !important;
+    }
+    
+    .skin-impuls .newuserform .form-group .bg,
+    .skin-impuls .newuserform .form-group select .bg {
+        
+        width: 190px !important;
+    }
+    
+    .skin-impuls .newuserform .form-group input .sm,
+    .skin-impuls .newuserform .form-group select .sm {
+        
+        width: 150px;
+    }
+}
+
+@media ( max-width: 767px ) {
+    
+    .skin-impuls .newuserform .form-group {
+        width: 100%;            
+        margin-bottom:7px;
+    }
+    
+    .skin-impuls .newuserform .form-group input,
+    .skin-impuls .newuserform .form-select {
+        
+        width: 100%;
+    }
+    
+}

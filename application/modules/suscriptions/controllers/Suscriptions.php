@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Suscriptions extends MX_Controller 
+class Suscriptions extends MY_Controller 
 {
 
     function __construct() {
@@ -51,8 +51,7 @@ class Suscriptions extends MX_Controller
 
     public function add() {
         
-        $this->load->model('services/services_prices_m');
-        $this->load->model('payments/payments_m');
+        $this->load->module(array('services', 'sales'));
         
         $customerId = $this->input->post('suscription')['customerId'];
         
@@ -60,7 +59,9 @@ class Suscriptions extends MX_Controller
         
         $credits = $this->input->post('suscription')['credits'];
         
-        $redirect = $this->input->post('redirect');
+        $service = $this->services_m->get($serviceId);
+        
+        //$redirect = $this->input->post('redirect');
         
         $price = $this->services_prices_m->where(array('fk_service_id' => $serviceId ,
                                                              'credits_min_int <=' => $credits,
@@ -73,26 +74,44 @@ class Suscriptions extends MX_Controller
         
         $price = $price->price_amt;
         
-        $id = $this->suscriptions_m->insert(
-                array( 'fk_customer_id' => $customerId,
-                        'fk_service_id' => $serviceId,
-                        'credits_int'   => $credits,
-                        'credits_lock_int' => 0, 
-                        'credits_used_int' => 0,
-                        'price_amt'         => $price
-                        )
-            );
+        $id = $this->suscriptions_m
+                ->insert(
+                    array( 'fk_customer_id' => $customerId,
+                            'fk_service_id' => $serviceId,
+                            'credits_int'   => $credits,
+                            'credits_lock_int' => 0,
+                            'credits_used_int' => 0,
+                            'price_amt'         => $price
+                            )
+                );                
         
-        $this->payments_m->insert(array(
-            'ammount_amt'           => $price,
-            'fk_payment_method_id'  => 1,
-            'note_txt'              => 'Contratación de suscripción'
-        ));
+        
+        $items[] = array(
+                    'type'          => '1', // Product
+                    'itemid'        => $serviceId,
+                    'qty'           => $credits,
+                    'description'   => "Suscripción a servicio de {$service->description_ln}",
+                    'price'         => $price * $credits
+                );
+        
+        
+        $saleid = $this->sales->record(
+                                        $customerId,
+                                        null,
+                                        $items
+                                    );  
         
         if ( $id === FALSE ) {
             
+             echo  json_encode(array(
+                'result'    => 'KO'
+            ));
+            
         }else {
-            redirect($redirect, 'refresh');
+            echo json_encode(array(
+                'result'    => 'OK',
+                'saleid'    => $saleid
+            ));
         }
     }
     

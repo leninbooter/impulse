@@ -13,17 +13,21 @@ class Services_m extends MY_Model
     public function __construct()
     {
         $this->has_many['prices'] = array('Services_prices_m','fk_service_id','pk_id');
+        $this->has_many['timebundles'] = array('Services_prices_by_time_m','fk_service_id','pk_id');
         parent::__construct();
     }
     
     public function getUnitPrice( $id ) {
-        
+    
         return $this->_database
                     ->query(
                             "SELECT price_amt
                             FROM services_prices
-                            WHERE credits_min_int is null or credits_min_int = 1"                            
-                        )->row();
+                            WHERE (credits_min_int is null OR credits_min_int <= 1 OR credits_min_int > 1)
+                                AND fk_service_id = {$id}
+                            ORDER BY credits_min_int
+                            LIMIT 1"
+                        )->row()->price_amt;
         
     }
     

@@ -13,7 +13,7 @@ class Payments_m extends MY_Model
     public function __construct()
     {
         $this->soft_deletes = true;
-        
+        $this->has_one['method'] = array('payments_methods_m','fk_payment_method_id','pk_id');
         parent::__construct();
     }           
     

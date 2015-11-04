@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Transactions	Transactions.php	6;"	class
+__construct	Transactions.php	9;"	function
+add	Transactions.php	17;"	function
+appointmentId	Transactions.php	23;"	variable
+apptData	Transactions.php	78;"	variable
+apptDate	Transactions.php	81;"	variable
+backTo	Transactions.php	24;"	variable
+credits_int	Transactions.php	100;"	variable
+credits_int	Transactions.php	21;"	variable
+credits_int	Transactions.php	54;"	variable
+datetime	Transactions.php	20;"	variable
+id	Transactions.php	108;"	variable
+id	Transactions.php	123;"	variable
+id	Transactions.php	33;"	variable
+id	Transactions.php	62;"	variable
+interval	Transactions.php	82;"	variable
+notes	Transactions.php	22;"	variable
+parentTransId	Transactions.php	101;"	variable
+parentTransId	Transactions.php	55;"	variable
+suscriptionId	Transactions.php	19;"	variable
+today	Transactions.php	80;"	variable
+transType	Transactions.php	18;"	variable

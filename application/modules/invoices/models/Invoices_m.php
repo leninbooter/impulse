@@ -17,4 +17,27 @@ class Invoices_m extends MY_Model
         parent::__construct();
     }           
     
+    public function getAllFromCust( $custid ) {
+        
+        return $this->_database
+                    ->query("
+                        SELECT 
+                            inv.*                     
+                        FROM invoices as inv
+                        INNER JOIN sales as sal ON sal.pk_id = inv.fk_sale_id
+                        WHERE sal.fk_customer_id = {$custid}
+                    ")->result();
+    }
+    
+    public function pay( $id, $ammount ) {
+        
+        $this->_database
+            ->query(
+                "UPDATE invoices
+                    SET paid_amt = paid_amt + {$ammount},
+                        balance_amt = balance_amt - {$ammount}
+                    WHERE pk_id = {$id} LIMIT 1
+                    "
+            );
+    }
 }

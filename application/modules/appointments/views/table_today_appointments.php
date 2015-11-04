@@ -68,23 +68,89 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal" id="confirmNewApt">
+<div class="modal menuanimation" id="confirmNewApt">
   <div class="modal-dialog modal-lg ">
     <div class="modal-content">
-    <form method="GET" action="<?=base_url('index.php/appointments/create')?>">
+    <form id="newapptontheflyform" method="POST" onsubmit="return false;">
         <div class="modal-body container-fluid">
             <input type="hidden" name="apptdate" value="">
             <div class="row">
-                <div class="col-md-12 text-center">                    
+                <div class="col-xs-12 text-center">                    
                     <h1>Nueva Cita</h1>
                     <h2><span id="day"></span> a las <span id="time"></span></h2>
-                    <h4>Confirma que deseas crear una cita en la fecha seleccionada</h4>
+                    <!--<h4>Confirma que deseas crear una cita en la fecha seleccionada</h4>-->
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-xs-offset-3 col-xs-6 text-center" style="padding-left: 0; padding-right:0">
+                    <select id="customers" name="customer" class="form-control" style="width: 100%">
+                        <option></option>
+                        <?php foreach($customers as $c):?>
+                            <option value="<?=$c->pk_id?>" <?=isset($appt) && $appt->cust_id == $c->pk_id ? 'selected':''?>><?="{$c->name} {$c->lastname}"?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="hidden" id="custsearchcriteria">
+                </div>
+                <div id="rownewcustbtn" class=" col-xs-2 text-center" style="padding-left: 0; padding-right:0; padding-top: 0px; opacity:0; display:none">                    
+                    <button id="btn_newcustonthefly" class="btn btn-primary btn-sm" type="button" onclick="showNewCustForm()"><i class="fa fa-user-plus"></i> Cliente nuevo</button>
+                </div>
+            </div>
+            
+            <div id="newcustrow" class="row" style="display:none">
+                <div class="col-xs-offset-3 col-xs-6 text-left" style="padding: 10px 20px; margin-top: 20px; color: #fff; background-color: #B61B1B">                    
+                    <h4><i class="fa fa-user-plus"></i> Nuevo Cliente</h4>
+                    <div class="form-horizontal">                        
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-4">
+                                <input type="name" class="form-control input-sm" id="name" name="name" placeholder="" style="height: 25px">
+                            </div>
+                            
+                            <label for="inputEmail3" class="col-sm-2 control-label">Apellido</label>
+                            <div class="col-sm-4">
+                                <input type="lastname" class="form-control input-sm" id="lastname" name="lastname" placeholder="" style="height: 25px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Teléfono</label>
+                            <div class="col-sm-4">
+                                <input type="telephone" class="form-control input-sm" id="telephone" name="telephone" placeholder="" style="height: 25px">
+                            </div>
+                        </div>                      
+                      
+                      <div class="row">
+                        <div class="col-xs-offset-2 col-xs-2">
+                            <button id="btn_cancelnewcustform"  class="btn btn-default" type="button">Cancelar</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                </div>
+            </div>
+            
+           <div class="row">
+                <div class="col-xs-offset-3 col-xs-6 text-center" style="padding-left: 0; padding-top:10px; padding-right:0">
+                    <select id="service" name="service" class="form-control" style="width: 100%">
+                        <option></option>
+                        <?php foreach($services as $s):?>
+                            <option value="<?=$s->pk_id?>" <?=isset($appt) && $appt->se_id == $s->pk_id ? 'selected':''?>><?=$s->description_ln?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            
+             <div class="row">
+                <!--<label class="col-sm-2 control-label">Servicio</label>-->
+                    <div class="col-xs-offset-3  col-xs-6" style="padding-left: 0;padding-right: 0; padding-top: 10px">
+                        <textarea name="observations" class="form-control" style="width: 100%" placeholder="Observaciones"></textarea>
+                    </div>                                   
+            </div>
+            
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </form>
     </div><!-- /.modal-content -->
@@ -130,5 +196,68 @@
                                     },
                                     height:500
                                 });
-
+    
+    var custs2picker = $('#customers').select2({
+    
+        placeholder: 'Seleccione un cliente'
+        
+    });
+   
+    var servs2picker = $('#service').select2({
+        
+        placeholder: 'Seleccione un servicio'
+        
+    });
+   
+    $('#confirmNewApt').on('hide.bs.modal', function() {
+        
+        $('#newcustrow').hide();
+        $('#rownewcustbtn').hide();
+        custs2picker.val(null).trigger("change");
+        servs2picker.val(null).trigger("change");
+    });
+    
+    $('#btn_cancelnewcustform').click(function() {
+        $('#newcustrow').hide();
+    });
+    
+    $('#newapptontheflyform').submit(function() {
+       
+        $.post('<?=base_url('index.php/appointments/add/true')?>', 
+            $(this).serialize(),
+            function(result) {
+                if( result.result == 'OK' ) {
+                    
+                    location.reload(true);
+                }
+            },
+            'json'
+        );
+    });
+    
+    function showNewCustForm() {
+        
+        $('#rownewcustbtn').hide();
+        
+        custs2picker.select2("close");
+        custs2picker.val(null).trigger("change");
+        
+        var name = $('#custsearchcriteria').val().split(" ");
+        
+        $('#newcustrow').show();
+        $('#name').val(name[0].charAt(0).toUpperCase() + name[0].slice(1)).focus();
+        $('#lastname').val(name[1].charAt(0).toUpperCase() + name[1].slice(1));
+        
+    }
+    
+    function showNewCustBtn() {
+        
+        searchcrit = $('.select2-search__field').val();
+        
+        $('#custsearchcriteria').val(searchcrit);
+        $('#rownewcustbtn').css('display', 'inline-block');                
+        $('#rownewcustbtn').addClass('magictime tinRightIn');                
+                
+    }            
+    
 </script>

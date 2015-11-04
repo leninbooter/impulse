@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Invoices	Invoices.php	6;"	class
+__construct	Invoices.php	9;"	function
+balance	Invoices.php	90;"	variable
+cust	Invoices.php	35;"	variable
+cust_addrs	Invoices.php	37;"	variable
+custid	Invoices.php	79;"	variable
+form	Invoices.php	52;"	variable
+generate	Invoices.php	74;"	function
+invid	Invoices.php	112;"	variable
+invoice	Invoices.php	17;"	function
+invoiceDataArr	Invoices.php	40;"	variable
+modal	Invoices.php	17;"	variable
+modal	Invoices.php	19;"	variable
+notes	Invoices.php	81;"	variable
+pay	Invoices.php	135;"	function
+payment_ammount	Invoices.php	87;"	variable
+payment_ammount	Invoices.php	88;"	variable
+payment_notes	Invoices.php	86;"	variable
+pm	Invoices.php	103;"	variable
+pm	Invoices.php	85;"	variable
+products	Invoices.php	26;"	variable
+sale	Invoices.php	24;"	variable
+sale	Invoices.php	83;"	variable
+saleid	Invoices.php	135;"	variable
+saleid	Invoices.php	80;"	variable
+services	Invoices.php	30;"	variable

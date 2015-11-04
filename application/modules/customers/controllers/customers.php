@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Customers extends MX_Controller 
+class Customers extends MY_Controller 
 {
 
     function __construct() {
@@ -11,10 +11,11 @@ class Customers extends MX_Controller
         parent::__construct();
         
         $this->load->helper('url');
-        $this->load->model('Customertypes_m');
-        $this->load->model('Documenttypes_m');
+        $this->load->model('customertypes_m');
+        $this->load->model('documenttypes_m');
         $this->load->model('countries_m');
         $this->load->model('customers_m');
+        $this->load->model('customer_addresses_m');
     }
     
     public function index() {
@@ -171,12 +172,12 @@ class Customers extends MX_Controller
                             
         }
         
-        $formData['documentTypes'] = $this->Documenttypes_m
+        $formData['documentTypes'] = $this->documenttypes_m
                                                     ->as_dropdown('description')
                                                     ->set_cache('get_doc_types')
                                                     ->get_all();
         
-        $formData['customerTypes'] = $this->Customertypes_m
+        $formData['customerTypes'] = $this->customertypes_m
                                                     ->where(
                                                             'parent is null', 
                                                             NULL, 

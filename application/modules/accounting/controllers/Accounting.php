@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Accounting extends MX_Controller 
+class Accounting extends MY_Controller 
 {
 
     function __construct() {
@@ -12,6 +12,7 @@ class Accounting extends MX_Controller
         
         $this->load->helper('url');
         $this->load->model('accounting_m');
+        
     }   
 
     public function index() {
@@ -47,6 +48,38 @@ class Accounting extends MX_Controller
         );
         
         $this->layout->render();
+    }
+    
+    public function addReceivable($custid, $ammount) {
+        
+        $this->load->model('accounts_receivable_m');
+        
+        $account = $this->accounts_receivable_m
+                ->where("fk_customer_id = {$custid}", null, null, false, false, true)
+                ->get();
+                
+        if ( $account ) {
+            log_message('info', 'sumar a deuda');
+            $oldbalance = $account->ammount_amt == "" 
+                            || $account->ammount_amt ? 0:$account->ammount_amt;
+            
+            $this->accounts_receivable_m
+                ->update(
+                array(
+                    'ammount_amt' => $oldbalance + $ammount
+                ),                
+                $account->pk_id
+                );
+            
+        }else {
+            log_message('info', 'agregar deuda');
+            $this->accounts_receivable_m
+                    ->insert(array(
+                        'fk_customer_id'    => $custid,
+                        'ammount_amt'       => $ammount
+                    ));
+        }
+        
     }
     
 }

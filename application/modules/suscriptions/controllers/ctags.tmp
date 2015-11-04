@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Suscriptions	Suscriptions.php	6;"	class
+__construct	Suscriptions.php	9;"	function
+actives	Suscriptions.php	17;"	function
+add	Suscriptions.php	52;"	function
+credits	Suscriptions.php	60;"	variable
+custId	Suscriptions.php	17;"	variable
+customerId	Suscriptions.php	23;"	variable
+customerId	Suscriptions.php	56;"	variable
+heldCreditsFrom	Suscriptions.php	118;"	function
+id	Suscriptions.php	104;"	variable
+id	Suscriptions.php	77;"	variable
+price	Suscriptions.php	66;"	variable
+price	Suscriptions.php	72;"	variable
+price	Suscriptions.php	75;"	variable
+saleid	Suscriptions.php	98;"	variable
+service	Suscriptions.php	62;"	variable
+serviceId	Suscriptions.php	58;"	variable
+suscriptionData	Suscriptions.php	124;"	variable
+suscriptionData	Suscriptions.php	151;"	variable
+suscriptionId	Suscriptions.php	123;"	variable
+suscriptionId	Suscriptions.php	150;"	variable
+usedCreditsFrom	Suscriptions.php	145;"	function

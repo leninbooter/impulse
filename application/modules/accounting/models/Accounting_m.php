@@ -22,8 +22,12 @@ class Accounting_m extends MY_Model
         return $this->_database
                     ->query("
                         SELECT
-                            *
-                        FROM payments
+                            pay.*,
+                            inv.pk_id as invoice_id
+                        FROM        payments as pay
+                        INNER JOIN sales as sa ON sa.pk_id = pay.fk_sale_id
+                        LEFT JOIN invoices as inv ON inv.fk_sale_id = sa.pk_id
+                        LEFT JOIN receipts as rec ON rec.fk_sale_id = sa.pk_id
                     ")
                     ->result();
     }

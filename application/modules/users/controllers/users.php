@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Users extends MX_Controller 
+class Users extends MY_Controller 
 {
 
     function __construct() {

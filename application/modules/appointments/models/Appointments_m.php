@@ -37,14 +37,23 @@ class Appointments_m extends MY_Model
                                 appt.cancellation_date_dt,
                                 appt.credits_int,
                                 s.pk_id as suscription_id,
-                                appt.fk_attending_employment_id
+                                appt.fk_attending_employment_id,
+                                appt.fk_equipment_id,
+                                eq.name_sn as equip_name,
+                                concat(us.name, ' ', us.lastname) as attending_employ,
+                                appt.fk_service_id,
+                                appt.include_accesories_bit,
+                                appt.duration_f6_2
                             FROM appointments as appt
-                            LEFT JOIN suscriptions  as s ON s.pk_id = appt.fk_suscription_id
-                            LEFT JOIN customers     as c ON c.pk_id = appt.fk_customer_id OR s.fk_customer_id  = c.pk_id 
-                            LEFT JOIN services      AS se ON se.pk_id = appt.fk_service_id OR s.fk_service_id = se.pk_id
-                            LEFT JOIN appointments_status as apptsts ON apptsts.pk_id = appt.fk_appointment_status_id
+                            LEFT JOIN suscriptions          as s ON s.pk_id = appt.fk_suscription_id
+                            LEFT JOIN customers             as c ON c.pk_id = appt.fk_customer_id OR s.fk_customer_id  = c.pk_id 
+                            LEFT JOIN services              as se ON se.pk_id = appt.fk_service_id OR s.fk_service_id = se.pk_id
+                            LEFT JOIN appointments_status   as apptsts ON apptsts.pk_id = appt.fk_appointment_status_id
+                            LEFT JOIN equipment             as eq ON appt.fk_equipment_id = eq.pk_id
+                            LEFT JOIN users                 as us ON us.pk_id = appt.fk_attending_employment_id
                             WHERE 
                                 appt.pk_id = {$id}
+                            LIMIT 1
                             ")->row();
     }
 

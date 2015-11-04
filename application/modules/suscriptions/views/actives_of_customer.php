@@ -41,7 +41,7 @@
 
 <div class="modal fade" id="addServiceModal">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div id="addServiceModalContent" class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Agregar Servicio</h4>
@@ -54,6 +54,8 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
 
 <div class="modal fade" id="addAppointmentModal">
   <div class="modal-dialog">
@@ -68,6 +70,14 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id="checkoutModal">
+  <div class="modal-dialog">
+    <div id="checkoutModalContent"class="modal-content">
+            
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
 
 <script>   
     $('#addAppointmentModal').on('show.bs.modal', function (event) {

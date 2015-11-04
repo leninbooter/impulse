@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Transactions extends MX_Controller 
+class Transactions extends MY_Controller 
 {
 
     function __construct() {

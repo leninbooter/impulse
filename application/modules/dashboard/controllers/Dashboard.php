@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Dashboard extends MX_Controller 
+class Dashboard extends MY_Controller 
 {
 
     function __construct() {
@@ -38,11 +38,7 @@ class Dashboard extends MX_Controller
     
     public function customerProfile( $id = NULL ) {
         
-        $this->load->module('layout');
-        //$this->load->module('customers');
-        $this->load->module('suscriptions');
-        $this->load->module('customers');
-        $this->load->model('customers/customers_m');       
+        $this->load->module(array('layout', 'suscriptions', 'customers', 'invoices', 'receipts'));
         
         $customerdata = $this->customers_m->get($id);
         
@@ -51,7 +47,9 @@ class Dashboard extends MX_Controller
                 'sectionTittle' => $customerdata->name." ". $customerdata->lastname,
                 'customerForm'  => $this->customers->form($id, false),
                 'bonus'         => $this->suscriptions->actives( $id, false ),
-                'lastAppts'     => ''
+                'lastAppts'     => '',
+                'invoices'      => $this->invoices_m->getAllFromCust($id),
+                'receipts'      => $this->receipts_m->getAllFromCust($id)
             )
         );
         

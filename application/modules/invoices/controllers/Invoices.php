@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Invoices extends MX_Controller 
+class Invoices extends MY_Controller 
 {
 
     function __construct() {
@@ -14,81 +14,126 @@ class Invoices extends MX_Controller
         $this->load->model('invoices_m');
     }
         
-    public function invoice( $id = 0 ) {
+    public function invoice( $saleid, $modal = false ) {
         
-        $this->load->model('appointments/appointments_m');
-        $this->load->model('customers/customers_m');
-        $this->load->model('customers/customer_addresses_m');
-        $this->load->model('services/services_m');
-        $this->load->model('services/services_prices_m');        
+        $modal = filter_var($modal, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
         
-        $appt = $this->appointments_m->getappt($id);
+        $this->load->module('sales');
+        $this->load->module('customers');
         
-        $s          = $this->services_m->get($appt->se_id);
-        $price      = $this->services_m->getUnitPrice($appt->se_id);
-        $cust       = $this->customers_m->get($appt->cust_id);
-        $cust_addrs = $this->customer_addresses_m->getOf($appt->cust_id);
+        $sale = $this->sales_m->get($saleid);
         
-        echo $this->load
-                    ->view( 'form', 
-                            array(
-                                'appt'          => $appt,
-                                'cust'          => $cust,
-                                'cust_addrs'    => $cust_addrs,
-                                'service'       => $s,
-                                'servicePrice'  => $price
-                            ),
-                            true);
+        $products          = $this->sales_product_items_m
+                                ->where("fk_sale_id = {$saleid}", null, null, false, false, true)
+                                ->get_all();                                
+                                
+        $services          = $this->sales_services_items_m
+                                ->where("fk_sale_id = {$saleid}", null, null, false, false, true)
+                                ->get_all();
+                                
+                                
+        $cust       = $this->customers_m->get( 
+            $sale->fk_customer_id );
+        $cust_addrs = $this->customer_addresses_m->getOf(
+            $sale->fk_customer_id);
+        
+        $invoiceDataArr = array(
+                                    'saleid'          => $saleid,
+                                    'cust'          => $cust,
+                                    'cust_addrs'    => $cust_addrs,
+                                    'services'       => $services,
+                                    'products'      => $products,
+                                    'subtotal'      => 0,
+                                    'total'         => 0
+                                );
+        
+        if( $modal ) {
+            
+            $form = $this->load
+                        ->view( 'form', 
+                                $invoiceDataArr,
+                                true);
+            
+            echo $this->load->view(
+                'modalcontentinvoice',
+                array(
+                    'form'  => $form
+                ),
+                true
+            );
+            
+        }else {
+        
+            echo $this->load
+                        ->view( 'form', 
+                                $invoiceDataArr,
+                                true);
+        }
     }
         
     public function generate() {
         
-        $this->load->model('invoice_items_m');
         $this->load->model('payments/payments_m');
+        $this->load->module('sales');
         
-        $apptid = $this->input->post( 'apptid', true);
         $custid = $this->input->post( 'custid', true);
-        $itemsqty = $this->input->post( 'itemqty', true);
-        $itemid = $this->input->post( 'itemid', true);
-        $itmdesc = $this->input->post( 'itmdesc', true);
-        $subtotal = $this->input->post( 'subtotal', true);
-        $total = $this->input->post( 'total', true);
-        $pm = $this->input->post( 'paymentmeth', true);
+        $saleid = $this->input->post( 'saleid', true);
+        $notes = $this->input->post( 'notes', true);
         
+        $sale = $this->sales_m->get($saleid);
+        
+        $pm = $this->input->post( 'paymentmeth', true);
+        $payment_notes = $this->input->post( 'payment_description', true);
+        $payment_ammount = $this->input->post( 'payment_ammount', true);
+        $payment_ammount = $payment_ammount == "" ? 0:$payment_ammount;
+    
+        $balance = $sale->total_amt - $payment_ammount;
+        
+        if ( $payment_ammount > 0 && $pm != 3 ) {
+        
+            $this->payments_m
+                    ->insert(array(
+                                'fk_sale_id'            => $saleid,
+                                'ammount_amt'           => $payment_ammount,
+                                'fk_payment_method_id'  => $pm,
+                                'note_txt'              => $payment_notes
+                            ));
+        }
+        
+        if( $pm == 3 || $balance > 0 ){
+            
+            $this->load->module('accounting');
+            
+            $this->accounting
+                ->addReceivable(   
+                                $sale->fk_customer_id, 
+                                $balance );
+        }
         $invid = $this->invoices_m
                         ->insert(
                             array(
-                                'fk_customer_id'        => $custid,
-                                'fk_invoice_status_id'  => 1,
-                                'subtotal_amt'          => $subtotal, 
-                                'total_amt'             => $total,
-                                'paid_amt'              => $total,
-                                'balance_amt'           => 0
+                                'fk_sale_id'            => $saleid,
+                                'subtotal_amt'          => $sale->total_amt, 
+                                'total_amt'             => $sale->total_amt,
+                                'paid_amt'              => $payment_ammount,
+                                'balance_amt'           => $balance,
+                                'notes_txt'             => $notes
                             )
-                        );
+                        );               
         
-        for( $i=0; $i<count($itemsqty); $i++ ) {
-            
-            $this->invoice_items_m
-                    ->insert(array(
-                        'fk_invoice_id'         => $invid,
-                        'fk_item_id'            => $itemid[$i],
-                        'description_ln'        => $itmdesc[$i],
-                        'qty_int'               => $itemsqty[$i],
-                        'subtotal_ammount_amt'  => $subtotal ,
-                        'total_amt'             => $total
-                    ));
-            
-        }
-
-        $this->payments_m
-                ->insert(array(
-                            'fk_invoice_id'         => $invid,
-                            'ammount_amt'           => $total,
-                            'fk_payment_method_id'  => $pm[0]
-                        ));
+        $this->sales_m->update(
+            array(
+                'billed_bit'    => 1
+            ),
+            $saleid
+        );
+        
         
         redirect("",'refresh');
     }
     
+    public function pay($id = null, $saleid = null, $ammount) {
+        
+        $this->invoices_m->pay($id, $ammount);
+    }
 }

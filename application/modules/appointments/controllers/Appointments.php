@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Appointments extends MX_Controller 
+class Appointments extends MY_Controller 
 {
 
     function __construct() {
@@ -14,15 +14,37 @@ class Appointments extends MX_Controller
         $this->load->model('appointments_m');
     }       
 
-    public function add() {
+    public function add($ajax = null) {
         
-        $this->load->module('transactions');
+        $ajax = filter_var($ajax, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        
+        $this->load->module(array('transactions', 'customers'));
         $this->load->model('suscriptions/suscriptions_m');
         
-        $datetime_dtm = DateTime::createFromFormat('d/m/Y', $this->input->post('date', true))->format('Y-m-d '.$this->input->post('time'));
+        $datetime_dtm    = DateTime::createFromFormat('Y-m-d\TH:i:s', $this->input->post('apptdate', true))->format('Y-m-d H:i');
         $c = $this->input->post('customer', true);
         $s = $this->input->post('service', true);
         $obs = $this->input->post('observations', true);
+        $newcustname = $this->input->post('name', true);
+        $newcustlastname = $this->input->post('lastname', true);
+        $newcustphone = $this->input->post('telephone', true);
+        
+        if( !is_numeric($c) ) {
+            
+            $customer = array(
+                                'name'              => $newcustname,
+                                'lastname'          => $newcustlastname,
+                                'fk_document_type'  => null,
+                                'NIF'               => null,
+                                'telephone'         => $newcustphone,
+                                'mobile'            => $newcustphone,
+                                'email'             => null,
+                                'picture'           => null,
+                                'fk_customer_type'  => 2
+                                );
+            
+            $c = $this->customers_m->save(null, $customer);   
+        }
         
         $qry = $this->suscriptions_m
                     ->where("fk_customer_id = {$c} AND fk_service_id = {$s}", null,null, false, false, true)
@@ -54,7 +76,7 @@ class Appointments extends MX_Controller
                                     );
             }
             
-            redirect("appointments/addednosusc/{$id}",'refresh');
+            //redirect("appointments/addednosusc/{$id}",'refresh');
             
         }else {
             
@@ -82,12 +104,18 @@ class Appointments extends MX_Controller
                                     );
             }
             
-            redirect("appointments/addedwithsusc/{$id}",'refresh');
+            //redirect("appointments/addedwithsusc/{$id}",'refresh');
         }
         
+        if ( $ajax ) {
+            
+            echo json_encode(array(
+                'result'    => 'OK'
+            ));
+        }else {
         
-        
-        
+            redirect("appointments/todayappointments",'refresh');
+        }
     }
     
     public function addednosusc() {
@@ -168,7 +196,7 @@ class Appointments extends MX_Controller
     
     public function todayAppointments() {
         
-        $this->load->module('layout');
+        $this->load->module(array('layout', 'customers', 'services'));
         $this->load->model('suscriptions/suscriptions_m');
         
        /*  $appointments = $this->appointments_m->with_suscription()->get_all();
@@ -185,12 +213,19 @@ class Appointments extends MX_Controller
         } */
         $this->layout->set(
             array(
-                'custom_css'            => array(base_url('assets/AdminLTE-2.2.0/plugins/fullcalendar/fullcalendar.min.css')),
+                'custom_css'            => array(base_url('assets/AdminLTE-2.2.0/plugins/fullcalendar/fullcalendar.min.css'),
+                                                base_url('assets/select2-4.0.0/dist/css/select2.min.css'),
+                                                base_url('assets/magiccss/magic.min.css')
+                                                ),
                 'custom_js'             => array(
                                                 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js',                                                
                                                 base_url('assets/AdminLTE-2.2.0/plugins/fullcalendar-2.3.2/fullcalendar.min.js'),
-                                                base_url('assets/AdminLTE-2.2.0/plugins/fullcalendar-2.3.2/lang/es.js')
-                                                )
+                                                base_url('assets/AdminLTE-2.2.0/plugins/fullcalendar-2.3.2/lang/es.js'),
+                                                base_url('assets/select2-4.0.0/dist/js/select2.full.modified.js'),
+                                                base_url('assets/select2-4.0.0/dist/js/i18n/es.js')
+                                                ),
+                'customers'     => $this->customers_m->get_all(),
+                'services'      => $this->services_m->get_all()
             )
         );
         
@@ -254,6 +289,17 @@ class Appointments extends MX_Controller
                                     $apptId                                    
                                 );
         redirect( 'appointments/todayAppointments', 'refresh' );
+    }
+    
+    public function checkout($id = null) {                
+        
+        echo $this->load->view(
+                'checkout',
+                array(
+                    'apptid'  => $id
+                ),
+                true
+            );
     }
     
     public function confirm() {
@@ -346,7 +392,82 @@ class Appointments extends MX_Controller
         }    
         echo json_encode( $jsonArr );
     }
+    
+    private function recordSale( $apptid ) {
+        
+        $this->load->module('services');
+        $this->load->model('suscriptions/suscriptions_m');        
+        $this->load->model('products/products_m');        
+        $this->load->module('sales');        
+        $this->load->module('customers');        
+        
+        $appt = $this->appointments_m->getappt($apptid);
+        
+        $price = 0;
+        $products = array();
+        
+        if ( $appt->fk_suscription_id ) {
+            
+            $price = $this->suscriptions_m
+                            ->fields('price_amt')
+                            ->get($appt->fk_suscription_id);
+                            
+            if( !$price->price_amt ) {
+                $price = 0;
+            }
+            
+        }elseif( $appt->fk_service_id ) {
 
+            $price = $this->services_m
+                            ->getUnitPrice( $appt->fk_service_id );
+            
+        }else {
+            
+            return false;
+        }
+        
+        if( $appt->include_accesories_bit == 1 ) {
+            
+            $products[] = $this->products_m
+                                ->get();
+        }
+        
+        $s          = $this->services_m->get($appt->se_id);
+        $cust       = $this->customers_m->get( $appt->cust_id );
+        $cust_addrs = $this->customer_addresses_m->getOf($appt->cust_id);
+        
+        $items = array();
+        
+        $items[] = array(
+            'type'          => '1', // Service
+            'itemid'        => $s->pk_id,
+            'qty'           => 1,
+            'description'   => $s->description_ln,
+            'price'         => $price
+        );
+        
+        if( isset($products) && !empty($products)) {
+            
+            foreach($products as $v) {
+                
+                $items[] = array(
+                    'type'          => '2', // Product
+                    'itemid'        => $v->pk_id,
+                    'qty'           => 1,
+                    'description'   => $v->description_sn,
+                    'price'         => $v->price_amt
+                );
+            }
+        }
+        
+        return $this->sales->record(
+                                        $appt->cust_id,
+                                        $apptid,
+                                        $items
+                                    );                
+
+    }
+    
     public function setwhoattend() {
         
         $apptid = $this->input->post('appt');
@@ -362,7 +483,7 @@ class Appointments extends MX_Controller
         echo json_encode(array(
             'result' => 'OK'
         ));
-    }
+    }   
     
     public function save( $id = null ) {
         
@@ -374,11 +495,17 @@ class Appointments extends MX_Controller
         // Set as attended
         if ( $this->input->post('attended') ) {            
             
+            $this->load->model('suscriptions/suscriptions_m');
+            $this->load->module('equipment');
+            
+            $duration = $this->input->post('duration', true);
+            
             $appt = $this->appointments_m->get($id);
             $resultArr = array();
             
             $this->appointments_m
                 ->update(    array(
+                                'duration_f6_2' => $duration,
                                 'fk_appointment_status_id' => 5
                             ), 
                             $id);
@@ -407,8 +534,7 @@ class Appointments extends MX_Controller
                                         );
                 
                 $resultArr = array(
-                    'result'    => 'OK',
-                    'invoice'   => 'yes'
+                    'result'    => 'OK'
                 );
                 
             }else {
@@ -434,25 +560,35 @@ class Appointments extends MX_Controller
                                         );
                 
                 $resultArr = array(
-                    'result'    => 'OK',
-                    'invoice'   => 'no'
+                    'result'    => 'OK'
                 );
             }
+            
+            $resultArr['saleid'] = $this->recordSale( $id );
+            
+            $this->equipment->addStat( $apptData->fk_equipment_id, $apptData->duration_f6_2 );
             
             echo json_encode($resultArr);
             return;
         }
         
         // Set patient arrived
-        if ( $this->input->post('checkin') ) {            
+        if ( $this->input->post('checkin') ) {                        
+            
+            $emplid = $this->input->post('employees');
+            $machineid = $this->input->post('machines', true);
+            $accesories = $this->input->post('accesories', true);
             
             $this->appointments_m
                 ->update(    array(
-                                'fk_appointment_status_id' => 7
+                                'fk_appointment_status_id'  => 7,
+                                'fk_attending_employment_id'=> $emplid,
+                                'fk_equipment_id'           => $machineid,
+                                'include_accesories_bit'    => $accesories ? 1:0
                             ), 
                             $id);
                             
-            redirect("appointments/view/{$id}",'refresh');
+            redirect("",'refresh');
         }
         
         // Confirm         
@@ -572,6 +708,45 @@ class Appointments extends MX_Controller
                 'machines'      => $machines
             )
         );
+        
+        if ( $appt->fk_appointment_status_id == 5 ) {
+            
+            $this->load->module(array('sales', 'payments'));
+            
+            $sale = $this->sales_m
+                        ->where(    "fk_appointment_id = {$appt->pk_id}", 
+                                    null, 
+                                    null, 
+                                    false, 
+                                    false, 
+                                    true)
+                        ->get();
+            
+            $payments  = $this->payments_m
+                                        ->with_method()
+                                        ->where("fk_sale_id = {$sale->pk_id}", null, null, false, false, true)
+                                        ->get_all();
+            
+            $payments = !$payments ? array():$payments;
+            
+            $this->layout->set(array(
+            
+                    'products'  =>  $this->sales_product_items_m
+                                        ->where("fk_sale_id = {$sale->pk_id}", null, null, false, false, true)
+                                        ->get_all(),
+                                        
+                    'services'  => $this->sales_services_items_m
+                                        ->where("fk_sale_id = {$sale->pk_id}", null, null, false, false, true)
+                                        ->get_all(),
+                    'subtotal'  => 0,
+                    
+                    'total'     => 0,
+                    
+                    'saleid'    => $sale->pk_id,
+                    
+                    'payments'  => $payments
+            ));
+        }
         
         $this->layout->buffer(
         
